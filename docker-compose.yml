@@ -1,0 +1,27 @@
+version: "3.1"
+
+services:
+  http-client-nginx:
+    image: nginx:stable
+    container_name: http-client-nginx
+    working_dir: /application
+    volumes:
+        - ./http-client:/application
+        - ./docker/nginx/hosts:/etc/nginx/conf.d
+        - ./logs:/var/log/nginx
+    ports:
+     - "8000:80"
+    depends_on:
+      - http-client-fpm
+
+  http-client-fpm:
+    build:
+      context: docker/php
+      args:
+        - USER_ID
+        - GROUP_ID
+    container_name: http-client-fpm
+    working_dir: /application
+    volumes:
+      - ./http-client:/application
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini

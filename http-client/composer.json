@@ -1,0 +1,22 @@
+{
+    "name": "api/client",
+    "description": "Some desc",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Http\\Client\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Snowball",
+            "email": "snow-snowball@yandex.ru"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/http-client": "^5.3",
+        "php-di/php-di": "^6.3",
+        "nyholm/psr7": "^1.4"
+    }
+}
