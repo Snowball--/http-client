@@ -24,6 +24,6 @@ class MethodPostStrategy implements MethodStrategy
 
     public function prepareRequest(RequestInterface $request): ResponseInterface
     {
-        // TODO: Implement prepareRequest() method.
+
     }
 }

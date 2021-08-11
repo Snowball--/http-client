@@ -82,7 +82,7 @@ class ClientWrapper
         $uriBuilder = new UriBuilder($this->client);
         $requestBuilder = new RequestBuilder($this->client, MethodStrategyFactory::getStrategy($method));
 
-        $uri = $uriBuilder->build($this->endpoint, $dto);
+        $uri = $uriBuilder->build($dto);
         $request = $requestBuilder->build($dto, $uri);
 
         try {

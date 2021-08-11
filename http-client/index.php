@@ -6,24 +6,37 @@
  * @author snowball <snow-snowball@yandex.ru>
  */
 
-use Http\Client\ClientWrapper;
-use Http\Client\Toolkit;
+
+use Http\Client\Container;
+use Http\Client\HttpWrapper;
+use Symfony\Component\HttpClient\Psr18Client;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-Toolkit::set(ClientWrapper::class, new ClientWrapper(
-    new \Symfony\Component\HttpClient\Psr18Client(),
-    new \Http\Client\Request\DTO\RequestDTOBuilder(),
-    "https://httpbin.org/",
-    [
-        'Content-type' => 'application/json',
-        'Accept' => 'image/png',
-    ]
+$container = Container::getInstance();
+$container->set(HttpWrapper::class, new HttpWrapper(
+    new Psr18Client(),
+    'https://httpbin.org/',
+    []
 ));
 
-/* @var $client ClientWrapper */
-$client = Toolkit::get(ClientWrapper::class);
-$response = $client->get('image/png', []);
-echo file_put_contents('tet.png', $response->getBody()->getContents());
+/* @var HttpWrapper $wrapper */
+$wrapper = $container->get(HttpWrapper::class);
+$response = $wrapper->get('get');
+var_dump($response->getBody()->getContents());exit();
+
+//Toolkit::set(ClientWrapper::class, new ClientWrapper(
+//    new Psr18Client(),
+//    new RequestDTOBuilder(),
+//    "https://httpbin.org/",
+//    [
+//        'Accept' => 'application/json',
+//    ]
+//));
+//
+///* @var $client ClientWrapper */
+//$client = Toolkit::get(ClientWrapper::class);
+//$response = $client->get('get', []);
+//echo $response->getBody()->getContents();
 
 

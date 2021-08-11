@@ -10,6 +10,7 @@ namespace Http\Client\Uri;
 
 
 use Http\Client\Request\DTO\RequestDTO;
+use Http\Client\Utils;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -30,10 +31,9 @@ class UriBuilder
         $this->factory = $factory;
     }
 
-    public function build($endpoint, RequestDTO $dto)
+    public function build(RequestDTO $dto)
     {
-        $endpoint = (substr($endpoint, -1) == '/') ? substr_replace($endpoint, '', -1) : $endpoint;
-        $this->url = $this->factory->createUri($endpoint);
+        $this->url = $this->factory->createUri($dto->getEndpoint());
         $this->appendPath($dto->getPath(), $dto->getPathReplacements());
         $this->appendQuery($dto->getQuery());
 
@@ -42,10 +42,9 @@ class UriBuilder
 
     private function appendPath(string $uri, array $params = [])
     {
-        $uri = (substr($uri, 0, 1) == '/') ? $uri : '/' . $uri;
         $replace = [];
         foreach ($params as $key => $value) {
-            $replace['{' . $key . '}'] = $value;
+            $replace[Utils::getPlaceholder($key)] = $value;
         }
 
         $this->url = $this->url->withPath(strtr($uri, $replace));
