@@ -5,7 +5,6 @@ namespace Http\Client;
 
 use Http\Client\Request\RequestBuilder;
 use Http\Client\Request\RequestConfig;
-use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -21,6 +20,9 @@ class HttpWrapper
 
     private const METHOD_GET = 'GET';
     private const METHOD_POST = 'POST';
+    private const METHOD_PUT = 'PUT';
+    private const METHOD_PATCH = 'PATCH';
+    private const METHOD_DELETE = 'DELETE';
 
     public function __construct(Psr18Client $client, string $endpoint, array $options = [])
     {
@@ -43,6 +45,27 @@ class HttpWrapper
         return $this->sendRequest($request);
     }
 
+    public function put($path, $options): ResponseInterface
+    {
+        $options = array_merge($this->options, $options);
+        $request = $this->createRequest(self::METHOD_PUT, $path, $options);
+        return $this->sendRequest($request);
+    }
+
+    public function patch($path, $options): ResponseInterface
+    {
+        $options = array_merge($this->options, $options);
+        $request = $this->createRequest(self::METHOD_PATCH, $path, $options);
+        return $this->sendRequest($request);
+    }
+
+    public function delete($path, $options): ResponseInterface
+    {
+        $options = array_merge($this->options, $options);
+        $request = $this->createRequest(self::METHOD_DELETE, $path, $options);
+        return $this->sendRequest($request);
+    }
+
     private function createRequest($method, $path, $options): RequestInterface
     {
         $requestConfig = new RequestConfig($method, $this->endpoint, $path, $options);
@@ -52,9 +75,6 @@ class HttpWrapper
 
     private function sendRequest(RequestInterface $request): ResponseInterface
     {
-        try {
-            return $this->client->sendRequest($request);
-        } catch (ClientExceptionInterface $e) {
-        }
+        return $this->client->sendRequest($request);
     }
 }

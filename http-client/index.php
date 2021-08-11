@@ -17,10 +17,16 @@ $container = Container::getInstance();
 $container->set(HttpWrapper::class, new HttpWrapper(
     new Psr18Client(),
     'https://httpbin.org/',
-    []
+    [
+        'headers' => [
+            'Accept' => ['application/json']
+        ]
+    ]
 ));
 
 /* @var HttpWrapper $wrapper */
 $wrapper = $container->get(HttpWrapper::class);
-$response = $wrapper->get('get');
-var_dump($response->getBody()->getContents());exit();
+$response = $wrapper->get('/cookies/set', [
+    'query' => 'test=blabla'
+]);
+echo($response->getBody()->getContents());exit();
