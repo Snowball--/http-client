@@ -24,19 +24,3 @@ $container->set(HttpWrapper::class, new HttpWrapper(
 $wrapper = $container->get(HttpWrapper::class);
 $response = $wrapper->get('get');
 var_dump($response->getBody()->getContents());exit();
-
-//Toolkit::set(ClientWrapper::class, new ClientWrapper(
-//    new Psr18Client(),
-//    new RequestDTOBuilder(),
-//    "https://httpbin.org/",
-//    [
-//        'Accept' => 'application/json',
-//    ]
-//));
-//
-///* @var $client ClientWrapper */
-//$client = Toolkit::get(ClientWrapper::class);
-//$response = $client->get('get', []);
-//echo $response->getBody()->getContents();
-
-
