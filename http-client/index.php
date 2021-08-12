@@ -29,4 +29,19 @@ $wrapper = $container->get(HttpWrapper::class);
 $response = $wrapper->get('/cookies/set', [
     'query' => 'test=blabla'
 ]);
-echo($response->getBody()->getContents());exit();
+echo $response->getBody()->getContents();
+
+$response = $wrapper->post('/statuses/500');
+echo $response->getStatusCode();
+
+$response = $wrapper->put('/statuses/200');
+echo $response->getStatusCode();
+
+$response = $wrapper->delete('/statuses/300');
+echo $response->getStatusCode();
+
+$response = $wrapper->patch('/statuses/400');
+echo $response->getStatusCode();
+
+
+$response = $wrapper->post('/delay/3');

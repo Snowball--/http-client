@@ -3,14 +3,39 @@
 
 namespace Http\Client\Request;
 
-
+/**
+ * Class RequestConfig
+ * @package Http\Client\Request
+ */
 class RequestConfig
 {
+    /**
+     * @var string
+     */
     private string $method;
+
+    /**
+     * @var string
+     */
     private string $endpoint;
+
+    /**
+     * @var string
+     */
     private string $path;
+
+    /**
+     * @var array
+     */
     private array $options;
 
+    /**
+     * RequestConfig constructor.
+     * @param string $method
+     * @param string $endpoint
+     * @param string $path
+     * @param array $options
+     */
     public function __construct(string $method,
                                 string $endpoint,
                                 string $path,

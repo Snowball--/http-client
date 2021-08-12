@@ -4,11 +4,13 @@
 namespace Http\Client;
 
 
-use DI\NotFoundException;
-use Psr\Container\ContainerExceptionInterface;
+use Http\Client\Exception\NotFoundException;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * Class Container
+ * @package Http\Client
+ */
 class Container implements ContainerInterface
 {
     /**
@@ -21,8 +23,14 @@ class Container implements ContainerInterface
      */
     private array $content;
 
+    /**
+     * Container constructor.
+     */
     private function __construct() {}
 
+    /**
+     * @return Container
+     */
     public static function getInstance(): Container
     {
         if (!(self::$instance instanceof Container)) {
@@ -31,6 +39,11 @@ class Container implements ContainerInterface
         return self::$instance;
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     * @throws NotFoundException
+     */
     public function get(string $id)
     {
         if (!isset($this->content[$id])) {
@@ -39,11 +52,19 @@ class Container implements ContainerInterface
         return $this->content[$id];
     }
 
+    /**
+     * @param string $id
+     * @return bool
+     */
     public function has(string $id): bool
     {
         return isset($this->content[$id]);
     }
 
+    /**
+     * @param string $id
+     * @param $value
+     */
     public function set(string $id, $value)
     {
         $this->content[$id] = $value;

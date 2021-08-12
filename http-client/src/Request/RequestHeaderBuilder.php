@@ -6,15 +6,30 @@ namespace Http\Client\Request;
 
 use Psr\Http\Message\RequestInterface;
 
+/**
+ * Class RequestHeaderBuilder
+ * @package Http\Client\Request
+ */
 class RequestHeaderBuilder implements RequestBuilderInterface
 {
+    /**
+     * @var RequestConfig
+     */
     private RequestConfig $config;
 
+    /**
+     * RequestHeaderBuilder constructor.
+     * @param RequestConfig $config
+     */
     public function __construct(RequestConfig $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return RequestInterface
+     */
     public function modify(RequestInterface $request): RequestInterface
     {
         $options = $this->config->getOptions();

@@ -13,6 +13,10 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 
+/**
+ * Class RequestBuilder
+ * @package Http\Client\Request
+ */
 class RequestBuilder
 {
     /**
@@ -25,8 +29,17 @@ class RequestBuilder
      */
     private UriFactoryInterface $uriFactory;
 
+    /**
+     * @var StreamFactoryInterface
+     */
     private StreamFactoryInterface $streamFactory;
 
+    /**
+     * RequestBuilder constructor.
+     * @param RequestFactoryInterface $requestFactory
+     * @param UriFactoryInterface $uriFactory
+     * @param StreamFactoryInterface $streamFactory
+     */
     public function __construct(RequestFactoryInterface $requestFactory,
                                 UriFactoryInterface $uriFactory,
                                 StreamFactoryInterface $streamFactory)
@@ -36,6 +49,10 @@ class RequestBuilder
         $this->streamFactory = $streamFactory;
     }
 
+    /**
+     * @param RequestConfig $requestConfig
+     * @return RequestInterface
+     */
     public function build(RequestConfig $requestConfig)
     {
         $uri = $this->uriFactory->createUri($requestConfig->getEndpoint());
@@ -55,6 +72,11 @@ class RequestBuilder
         return $request;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @param RequestBuilderInterface $builder
+     * @return RequestInterface
+     */
     private function updateRequest(RequestInterface $request, RequestBuilderInterface $builder): RequestInterface
     {
         return $builder->modify($request);
