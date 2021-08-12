@@ -31,16 +31,16 @@ $response = $wrapper->get('/cookies/set', [
 ]);
 echo $response->getBody()->getContents();
 
-$response = $wrapper->post('/statuses/500');
+$response = $wrapper->post('/status/500');
 echo $response->getStatusCode();
 
-$response = $wrapper->put('/statuses/200');
+$response = $wrapper->put('/status/200');
 echo $response->getStatusCode();
 
-$response = $wrapper->delete('/statuses/300');
+$response = $wrapper->delete('/status/300');
 echo $response->getStatusCode();
 
-$response = $wrapper->patch('/statuses/400');
+$response = $wrapper->patch('/status/400');
 echo $response->getStatusCode();
 
 
