@@ -35,6 +35,7 @@ class HttpWrapper
     {
         $options = array_merge($this->options, $options);
         $request = $this->createRequest(self::METHOD_GET, $path, $options);
+
         return $this->sendRequest($request);
     }
 
@@ -69,7 +70,7 @@ class HttpWrapper
     private function createRequest($method, $path, $options): RequestInterface
     {
         $requestConfig = new RequestConfig($method, $this->endpoint, $path, $options);
-        $requestBuilder = new RequestBuilder($this->client, $this->client);
+        $requestBuilder = new RequestBuilder($this->client, $this->client, $this->client);
         return $requestBuilder->build($requestConfig);
     }
 

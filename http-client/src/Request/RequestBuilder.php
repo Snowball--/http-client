@@ -10,6 +10,7 @@ namespace Http\Client\Request;
 
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 
 class RequestBuilder
@@ -24,10 +25,15 @@ class RequestBuilder
      */
     private UriFactoryInterface $uriFactory;
 
-    public function __construct(RequestFactoryInterface $requestFactory, UriFactoryInterface $uriFactory)
+    private StreamFactoryInterface $streamFactory;
+
+    public function __construct(RequestFactoryInterface $requestFactory,
+                                UriFactoryInterface $uriFactory,
+                                StreamFactoryInterface $streamFactory)
     {
         $this->requestFactory = $requestFactory;
         $this->uriFactory = $uriFactory;
+        $this->streamFactory = $streamFactory;
     }
 
     public function build(RequestConfig $requestConfig)
@@ -44,7 +50,7 @@ class RequestBuilder
 
         $request = $this->updateRequest($request, new RequestMethodBuilder($requestConfig));
         $request = $this->updateRequest($request, new RequestHeaderBuilder($requestConfig));
-        $request = $this->updateRequest($request, new RequestBodyBuilder($requestConfig));
+        $request = $this->updateRequest($request, new RequestBodyBuilder($requestConfig, $this->streamFactory));
 
         return $request;
     }
